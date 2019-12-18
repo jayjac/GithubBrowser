@@ -1,5 +1,5 @@
 //
-//  TMobile_ProjectTests.swift
+//  DataFetcher.swift
 //  TMobile-ProjectTests
 //
 //  Created by Jay Jac on 12/17/19.
@@ -7,9 +7,8 @@
 //
 
 import XCTest
-@testable import TMobile_Project
 
-class TMobile_ProjectTests: XCTestCase {
+class DataFetcherTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -20,15 +19,12 @@ class TMobile_ProjectTests: XCTestCase {
     }
 
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        var urlComponents = URLComponents(string: "https://api.github.com/search/users")!
+        let queryItem = URLQueryItem(name: "q", value: "Tom+in:login")
+        urlComponents.queryItems = [queryItem]
+        guard let newURL = urlComponents.url else { return }
+        print(newURL)
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
 
 }
