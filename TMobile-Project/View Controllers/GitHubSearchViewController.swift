@@ -12,7 +12,7 @@ import UIKit
 class GitHubSearchViewController: UIViewController {
 
     @IBOutlet var searchBar: UISearchBar!
-    private var searchManager: SearchManager!
+    private var searchManager: UserSearchManager!
     private let segueIdentifier: String = "ShowUserProfileSegue"
     @IBOutlet var tableView: UITableView!
     private let dataSource: UITableViewDataSource = GitHubSearchTableViewDataSource()
@@ -20,7 +20,7 @@ class GitHubSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchManager = SearchManager(searchBar: searchBar, tableView: tableView)
+        searchManager = UserSearchManager(searchBar: searchBar, tableView: tableView)
         tableView.dataSource = dataSource
         tableView.delegate = self
     }
@@ -43,7 +43,26 @@ extension GitHubSearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: segueIdentifier, sender: SearchManager.gitHubUsers.value[indexPath.row])
+        performSegue(withIdentifier: segueIdentifier, sender: UserSearchManager.gitHubUsersViewModelArray[indexPath.row])
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let row = indexPath.row
+        if row == UserSearchManager.gitHubUsersViewModelArray.count {
+            return 30.0
+        }
+        return 100.0
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let row = indexPath.row //SearchManager.gitHubUsersViewModelArray.count
+        if row > 0 && row == UserSearchManager.gitHubUsersViewModelArray.count && UserSearchManager.hasMoreResults.value {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.searchManager.searchNextPage()
+            }
+            
+        }
+        
     }
 }
 

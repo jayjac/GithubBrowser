@@ -7,16 +7,27 @@
 //
 
 import UIKit
+import SDWebImage
 
 class UserProfileViewController: UIViewController {
     
-    var viewModel: GitHubUserViewModel!
 
+    var viewModel: GitHubUserViewModel!
+    @IBOutlet var tableView: UITableView!
+    private var tableViewDataSource: UserProfileTableViewDataSource!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupUI()
     }
+    
+    func setupUI() {
+        tableViewDataSource = UserProfileTableViewDataSource(viewModel: viewModel, tableView: tableView)
+    }
+    
+    
+    
     
 
 

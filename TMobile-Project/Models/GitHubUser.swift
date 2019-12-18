@@ -13,23 +13,46 @@ class GitHubUser: Codable {
     
     let id: Int
     let login: String
-    let avatarUrl: String?
-    let reposUrl: String?
-    var repoCount: Int?
-    let followersUrl: String?
-    let followingUrl: String?
+    let avatarUrl: URL?
+    let reposUrl: URL?
+    var repos: [GitHubRepo]?
+    var followers: Int?
+    var following: Int?
+    var location: String?
+    var bio: String?
+    var email: String?
+    var joinDate: String?
     
     enum CodingKeys: String, CodingKey {
         case id
         case login
+        case bio
+        case location
+        case email
+        case followers
+        case following
         case avatarUrl = "avatar_url"
         case reposUrl = "repos_url"
-        case followersUrl = "followers_url"
-        case followingUrl = "following_url"
+        case joinDate = "created_at"
+    }
+    
+    func updateRepos(_ repos: [GitHubRepo]) {
+        self.repos = repos
+    }
+
+    
+    func refreshWith(user: GitHubUser) {
+        followers = user.followers
+        following = user.following
+        bio = user.bio
+        location = user.location
+        email = user.email
+        joinDate = user.joinDate
     }
     
 }
 
-struct GitHubUserReponse: Codable {
+struct GitHubUserSearchReponse: Codable {
     let items: [GitHubUser]
 }
+

@@ -15,7 +15,7 @@ class RemoteDataUtils_Tests: XCTestCase {
     func test_searchURLFor_Returns_Correct_URL() {
         let url = RemoteDataUtils.searchURLFor(userName: "john")
         XCTAssertNotNil(url)
-        let outputURL = "https://api.github.com/search/users?q=john+in:login"
+        let outputURL = "https://api.github.com/search/users?q=john+in:login&page=1"
         XCTAssertEqual(url!.absoluteString, outputURL)
     }
 
